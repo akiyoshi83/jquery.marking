@@ -1,0 +1,22 @@
+{
+  "name": "jquery.marking",
+  "version": "0.1.0",
+  "homepage": "https://github.com/akiyoshi83/jquery.marking",
+  "authors": [
+    "akiyoshi <mail@akiyoshi.info>"
+  ],
+  "description": "jQuery plugin that add annotated border to DOM elements.",
+  "main": "dist/jquery.marking.js",
+  "keywords": [
+    "jQuery",
+    "plugin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
