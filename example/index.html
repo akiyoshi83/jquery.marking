@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Marking Example</title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .ex {
+      margin: 10px;
+    }
+    .ex img {
+      background: #0769ad;
+    }
+    .ex p {
+      width: 320px;
+    }
+  </style>
+  <script src="../libs/jquery-loader.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="../src/jquery.marking.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>default</h1>
+    <div class="ex default">
+      <span>inline element</span>
+      <span>inline element</span>
+      <img alt="jquery logo" src="http://jquery.com/jquery-wp-content/themes/jquery/images/logo-jquery.png" />
+    </div>
+    <pre>
+      <code>
+      </code>
+    </pre>
+
+    <h1>labeled</h1>
+    <div class="ex labeled">
+      <p>
+        block element.<br>
+        block element.<br>
+        block element.<br>
+        block element.<br>
+        block element.<br>
+      </p>
+      <img alt="jquery logo" src="http://jquery.com/jquery-wp-content/themes/jquery/images/logo-jquery.png" />
+    </div>
+    <pre>
+      <code>
+      </code>
+    </pre>
+
+    <h1>styled</h1>
+    <div class="ex styled">
+      <p>
+        block element.<br>
+        block element.<br>
+        block element.<br>
+        block element.<br>
+        block element.<br>
+      </p>
+      <img alt="jquery logo" src="http://jquery.com/jquery-wp-content/themes/jquery/images/logo-jquery.png" />
+    </div>
+    <pre>
+      <code>
+      </code>
+    </pre>
+
+  </div><!--container-->
+  <script data-ex="ex default">
+    setTimeout(function() {
+      var $default = $('.ex.default').children();
+      $default.marking();
+    }, 1000);
+  </script>
+
+  <script data-ex="ex labeled">
+    setTimeout(function() {
+      var $labeled = $('.ex.labeled').children();
+      $labeled.marking({label: 'label'});
+    }, 1000);
+  </script>
+
+  <script data-ex="ex styled">
+    setTimeout(function() {
+      var $styled = $('.ex.styled').children();
+      $styled.marking({
+        label: 'styled',
+        markStyle: {
+          borderWidth: '3px',
+          borderStyle: 'dotted',
+          borderColor: '#00ffff',
+        },
+        labelStyle: {
+          color: '#ff0000',
+          backgroundColor: '#00eeee',
+          fontSize: '18px',
+          padding: '4px',
+        }
+      });
+    }, 1000);
+  </script>
+
+  <script>
+    $('.ex').each(function() {
+      var $ex = $(this);
+      var cls = $ex.attr('class');
+
+      var $code = $('+pre code', $ex);
+      var script = $('script[data-ex="' + cls + '"]').text();
+
+      $code.text(script);
+    });
+  </script>
+</body>
+</html>
+

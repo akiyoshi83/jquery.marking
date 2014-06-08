@@ -24,6 +24,9 @@
     // This will run before each test in this module.
     setup: function() {
       this.elems = $('#qunit-fixture').children();
+    },
+    teardown: function() {
+      $.marking.reset();
     }
   });
 
@@ -33,30 +36,74 @@
     strictEqual(this.elems.marking(), this.elems, 'should be chainable');
   });
 
-  test('is awesome', function() {
-    expect(1);
-    strictEqual(this.elems.marking().text(), 'awesome0awesome1awesome2', 'should be awesome');
+  test('is marked by default option', function() {
+    expect(2);
+    this.elems.marking();
+    var marks = $('.jqmark-border');
+    var labels = $('.jqmark-label');
+    strictEqual(marks.size(), 3, 'should be marked');
+    strictEqual(labels.size(), 0, 'should not be labeled');
+  });
+
+  test('is marked by label option', function() {
+    expect(3);
+    this.elems.marking({label: 'LABEL'});
+    var marks = $('.jqmark-border');
+    var labels = $('.jqmark-label');
+    strictEqual(marks.size(), 3, 'should be marked');
+    strictEqual(labels.size(), 3, 'should be labeled');
+    strictEqual(labels.eq(0).text(), 'LABEL', 'should be labeled');
+  });
+
+  test('is marked by prefix option', function() {
+    expect(4);
+    this.elems.marking({prefix: 'ext', label: 'LABEL'});
+    var marks = $('.ext-border');
+    var labels = $('.ext-label');
+    strictEqual(marks.size(), 3, 'should be marked');
+    strictEqual(labels.size(), 3, 'should be labeled');
+
+    strictEqual($('.jqmark-border').size(), 0, 'should be nothing');
+    strictEqual($('.jqmark-label').size(), 0, 'should be nothing');
   });
 
   module('jQuery.marking');
 
-  test('is awesome', function() {
+  test('return default options', function() {
     expect(2);
-    strictEqual($.marking(), 'awesome.', 'should be awesome');
-    strictEqual($.marking({punctuation: '!'}), 'awesome!', 'should be thoroughly awesome');
+    var defaults = $.marking.defaults;
+    deepEqual($.marking(), defaults, 'should return default options');
+    deepEqual($.marking({}), defaults, 'should return default options (empty object)');
   });
 
-  module(':marking selector', {
-    // This will run before each test in this module.
-    setup: function() {
-      this.elems = $('#qunit-fixture').children();
-    }
-  });
+  test('return customized options', function() {
+    expect(9);
+    var custom = $.marking({
+      prefix: 'ext',
+      label: 'some label',
+      markStyle: {
+        borderWidth: '3px',
+        borderStyle: 'dotted',
+        borderColor: '#00ffff',
+      },
+      labelStyle: {
+        color: '#ff0000',
+        backgroundColor: '#00eeee',
+        fontSize: '18px',
+        padding: '4px',
+      }
+    });
+    strictEqual(custom.prefix, 'ext', 'should be changed');
+    strictEqual(custom.label, 'some label', 'should be changed');
 
-  test('is awesome', function() {
-    expect(1);
-    // Use deepEqual & .get() when comparing jQuery objects.
-    deepEqual(this.elems.filter(':marking').get(), this.elems.last().get(), 'knows awesome when it sees it');
+    strictEqual(custom.markStyle.borderWidth, '3px', 'should be changed');
+    strictEqual(custom.markStyle.borderStyle, 'dotted', 'should be changed');
+    strictEqual(custom.markStyle.borderColor, '#00ffff', 'should be changed');
+
+    strictEqual(custom.labelStyle.color, '#ff0000', 'should be changed');
+    strictEqual(custom.labelStyle.backgroundColor, '#00eeee', 'should be changed');
+    strictEqual(custom.labelStyle.fontSize, '18px', 'should be changed');
+    strictEqual(custom.labelStyle.padding, '4px', 'should be changed');
   });
 
 }(jQuery));

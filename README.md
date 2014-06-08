@@ -11,11 +11,15 @@ Download the [production version][min] or the [development version][max].
 In your web page:
 
 ```html
+<div id="want-to-mark">
+  SOME CONTENTS
+</div>
+
 <script src="jquery.js"></script>
 <script src="dist/marking.min.js"></script>
 <script>
 jQuery(function($) {
-  $.awesome(); // "awesome"
+  $('#want-to-mark').marking({label: 'Marking!!!'});
 });
 </script>
 ```
